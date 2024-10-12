@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cuteapp-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cuteapp-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: always
+  
