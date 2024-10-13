@@ -30,11 +30,11 @@
   }
   
   button {
-    background-color: #4CAF50;
+    background-color: #1ca2a0 !important;
     color: white;
     cursor: pointer;
   }
   
   button:hover {
-    background-color: #45a049;
+    background-color: #00637e !important;
   }
