@@ -67,9 +67,6 @@ class CutieeRequest(BaseModel):
     gender: str = None
     age: int = None
 
-class CutieePassword(BaseModel):
-    password: str = None
-
 @app.post("/cutiees")
 async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
     """
@@ -126,25 +123,31 @@ async def get_cutiees(session: SessionDep, country: str = None, gender: str = No
     3. フィルタリングされたキューティーを返します
     """
 
-    cutiees_items = session.exec(select(Cutiees).country(country).gender(gender).age(age)).all()
+    # cutiees_items = session.exec(select(Cutiees).country(country).gender(gender).age(age)).all()
+    cutiees_items = session.exec(select(Cutiees)).all()
     return cutiees_items
 
 @app.put("/cutiees/{cutiee_id}/report")
-async def report_cutiee(cutie_id: int, session: SessionDep):
-    cutiee_db = session.get(Cutiee, cutiee_id)
+async def report_cutiee(cutiee_id: int, session: SessionDep):
+    cutiee_db = session.get(Cutiees, cutiee_id)
     if not cutiee_db:
         raise HTTPException(status_code=404, detail="cutiee_id not found")
-    cutiee_data = cutiee.model_dump(exclude_unset=True)
-    cutiee_db.sqlmodel_update(cutiee_data)
+    # cutiee_data = cutiee_db.model_dump(exclude_unset=True)
+    # cutiee_db.sqlmodel_update(cutiee_data)
+    # increment the report count
+    cutiee_db.report += 1
     session.add(cutiee_db)
     session.commit()
     session.refresh(cutiee_db)
     return cutiee_db
 
+class CutieePassword(BaseModel):
+    password: str = None
+
 @app.delete("/cutiees/{cutiee_id}")
-async def delete_cutiee(cutie_id: int, cutiee_password: CutieePassword, session: SessionDep):
-    if cutiee_password.password == 'abc':
-        cutiee = session.get(cutiee, cutiee_id)
+async def delete_cutiee(cutiee_id: int, cutiee_password: CutieePassword, session: SessionDep):
+    if cutiee_password.password == "abc":
+        cutiee = session.get(Cutiees, cutiee_id)
         if not cutiee:
             raise HTTPException(status_code=404, detail="cutiee not found")
         session.delete(cutiee)
