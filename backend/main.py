@@ -29,7 +29,7 @@ SessionDep = Annotated[Session, Depends(get_session)]
 def on_startup():
     create_db_and_tables()
 
-@app.get("/ping")
+@app.get("/api/ping")
 async def root():
     return {"ping": "pong"}
 
@@ -67,7 +67,7 @@ class CutieeRequest(BaseModel):
     gender: str = None
     age: int = None
 
-@app.post("/cutiees")
+@app.post("/api/cutiees")
 async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
     """
     1. File Size Limit: 2MB
@@ -105,7 +105,7 @@ async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
     return cutiee
 
 
-@app.get("/cutiees")
+@app.get("/api/cutiees")
 async def get_cutiees(session: SessionDep, country: str = None, gender: str = None, age: int = 0):
     """
     1. get all cuties from the database
@@ -136,7 +136,7 @@ async def get_cutiees(session: SessionDep, country: str = None, gender: str = No
 
     return cutiees_items
 
-@app.put("/cutiees/{cutiee_id}/report")
+@app.put("/api/cutiees/{cutiee_id}/report")
 async def report_cutiee(cutiee_id: int, session: SessionDep):
     cutiee_db = session.get(Cutiees, cutiee_id)
     if not cutiee_db:
@@ -153,7 +153,7 @@ async def report_cutiee(cutiee_id: int, session: SessionDep):
 class CutieePassword(BaseModel):
     password: str = None
 
-@app.delete("/cutiees/{cutiee_id}")
+@app.delete("/api/cutiees/{cutiee_id}")
 async def delete_cutiee(cutiee_id: int, cutiee_password: CutieePassword, session: SessionDep):
     if cutiee_password.password == "abc":
         cutiee = session.get(Cutiees, cutiee_id)
