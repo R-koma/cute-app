@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Select from 'react-select';
 import countries from 'world-countries';
 import './App.css'
-import './InputPage.css'; // CSSファイルを読み込む
+import './InputPage.css';
 
 function App() {
   const [formData, setFormData] = useState({
