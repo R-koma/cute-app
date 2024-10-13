@@ -12,7 +12,7 @@ class Cutiees(SQLModel, table=True):
     
     country: str | None = Field(default=None)
     gender: str | None = Field(default=None)
-    age: int | None = Field(default=None)
+    age: str | None = Field(default=None)
 
     report: int = Field(default=0)
     created_at: datetime = Field(default_factory=lambda: datetime.now())
