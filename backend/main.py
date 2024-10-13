@@ -1,7 +1,13 @@
-from fastapi import FastAPI
-from .models import create_db_and_tables
+from fastapi import  Depends, FastAPI, HTTPException, Query
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from .models import create_db_and_tables, get_session, Cutiees
+from typing import Annotated
+from sqlmodel import Session
 
 app = FastAPI()
+
+SessionDep = Annotated[Session, Depends(get_session)]
 
 @app.on_event("startup")
 def on_startup():
@@ -38,9 +44,51 @@ API
 4. キューティーを削除する（管理者のみ、パスワードが必要です）| DELETE /cutiees/{cutiee_id}
 """
 
+class CutieeRequest(BaseModel):
+    text: str = None
+    image: str = None
+    country: str = None
+    gender: str = None
+    age: int = None
+
+
 @app.post("/cutiees")
-async def create_cutiee():
-    pass
+async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
+    """
+    1. File Size Limit: 2MB
+    2. Either text or image must be provided
+
+    1. ファイルサイズ制限: 2MB
+    2. テキストまたは画像のいずれかが必要です
+    """
+
+    if cutiee_request.text is None and cutiee_request.image is None:
+        return {"error": "Either text or image must be provided"}
+
+    # File Size Limit: 2MB
+    if cutiee_request.image is not None:
+    
+        if len(cutiee_request.image) > 2 * 1024 * 1024:
+            raise HTTPException(
+                status_code=400,
+                detail="File size must be less than 2MB"
+            )
+        
+    # Save the cutiee to the database
+
+    cutiee = Cutiees(
+        text=cutiee_request.text,
+        image=cutiee_request.image,
+        country=cutiee_request.country,
+        gender=cutiee_request.gender,
+        age=cutiee_request.age
+    )
+
+    session.add(cutiee)
+    session.commit()
+
+    return cutiee
+
 
 @app.get("/cutiees")
 async def get_cutiees():
