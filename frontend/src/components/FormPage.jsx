@@ -5,6 +5,7 @@ import '../App.css'
 import '../InputPage.css';
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 const FormPage = () => {
@@ -109,28 +110,60 @@ const FormPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = new FormData();
-        data.append('name', formData.name);
-        data.append('date', formData.date);
-        data.append('gender', formData.gender);
-        data.append('age', formData.age);
-        data.append('text', formData.answer);
-        if (formData.imageFile) {
-            data.append('imageFile', formData.imageFile);
-        }
 
-        try {
-            await fetch('http://ec2-98-83-117-130.compute-1.amazonaws.com/api/submit', {
-                method: 'POST',
-                body: data,
-            });
-            alert('Data submitted successfully!');
-            navigate('/result');
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        const base64Image = await convertImageToBase64(formData.image);
+        const data = {
+            name: formData.name,
+            date: formData.date,
+            gender: formData.gender,
+            age: formData.age,
+            country: formData.country,
+            text: formData.answer,
+            image: base64Image, 
+        };
+
+        axios.post("http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees", data)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
+    
+        // try {
+        //     await fetch('', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json', // Set the appropriate content type
+        //         },
+        //         body: JSON.stringify(data), // Convert data object to JSON
+        //     });
+        //     alert('Data submitted successfully!');
+           navigate('/result');
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
     };
-
+    
+    // Helper function to convert image to Base64
+    const convertImageToBase64 = (file) => {
+        if (!file) {
+            return "";
+        }
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(reader.result); // Resolve the promise with the Base64 string
+            };
+            reader.onerror = (error) => {
+                reject(error); // Reject the promise in case of an error
+            };
+            reader.readAsDataURL(file); // Read the image file as a data URL (Base64)
+        });
+    };
+    
     return (
         <div style={{ margin: 'auto', padding: '20px 40px', borderRadius: '25px', justifyContent: 'center', textAlign: 'center' }}>
             <motion.div
@@ -157,7 +190,11 @@ const FormPage = () => {
                             placeholder="Enter your name"
                             value={formData.name}
                             onChange={handleChange}
-                            style={{ width: '300px', padding: '8px' }}
+                            style={{
+                                width: '300px', padding: '8px', border: '2px solid #9c9c9c',
+                                borderRadius: '5px',
+                                outline: 'none',
+                            }}
                         />
                     </div>
 
@@ -172,7 +209,10 @@ const FormPage = () => {
                             styles={{
                                 control: (provided) => ({
                                     ...provided,
-                                    width: 317
+                                    width: 317,
+                                    border: '2px solid #9c9c9c',
+                                    borderRadius: '5px',
+                                    outline: 'none',
                                 })
                             }}
                         />
@@ -189,7 +229,10 @@ const FormPage = () => {
                             styles={{
                                 control: (provided) => ({
                                     ...provided,
-                                    width: 317
+                                    width: 317,
+                                    border: '2px solid #9c9c9c',
+                                    borderRadius: '5px',
+                                    outline: 'none',
                                 })
                             }}
                         />
@@ -206,7 +249,10 @@ const FormPage = () => {
                             styles={{
                                 control: (provided) => ({
                                     ...provided,
-                                    width: 317
+                                    width: 317,
+                                    border: '2px solid #9c9c9c',
+                                    borderRadius: '5px',
+                                    outline: 'none',
                                 })
                             }}
                         />
@@ -222,7 +268,7 @@ const FormPage = () => {
                             style={{
                                 width: '300px',
                                 padding: '8px',
-                                border: '1px solid #3f3f3f',
+                                border: '2px solid #9c9c9c',
                                 borderRadius: '5px',
                                 outline: 'none',
                                 cursor: 'pointer',
@@ -240,7 +286,12 @@ const FormPage = () => {
                             placeholder="「かわいい」は？/ What is cute to you ?"
                             value={formData.answer}
                             onChange={handleChange}
-                            style={{ width: '300px', padding: '8px' }}
+                            style={{
+                                width: '300px', padding: '8px', 
+                                border: '2px solid #9c9c9c',
+                                borderRadius: '5px',
+                                outline: 'none',
+                            }}
                         />
                     </div>
 
