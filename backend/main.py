@@ -123,8 +123,17 @@ async def get_cutiees(session: SessionDep, country: str = None, gender: str = No
     3. フィルタリングされたキューティーを返します
     """
 
-    # cutiees_items = session.exec(select(Cutiees).country(country).gender(gender).age(age)).all()
     cutiees_items = session.exec(select(Cutiees)).all()
+
+    if country is not None:
+        cutiees_items = [cutiee for cutiee in cutiees_items if cutiee.country == country]
+    
+    if gender is not None:
+        cutiees_items = [cutiee for cutiee in cutiees_items if cutiee.gender == gender]
+
+    if age > 0:
+        cutiees_items = [cutiee for cutiee in cutiees_items if cutiee.age == age]
+
     return cutiees_items
 
 @app.put("/cutiees/{cutiee_id}/report")
