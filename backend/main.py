@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from .models import create_db_and_tables, get_session, Cutiees
 from typing import Annotated
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 app = FastAPI()
 
@@ -91,8 +91,25 @@ async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
 
 
 @app.get("/cutiees")
-async def get_cutiees():
-    pass
+async def get_cutiees(session: SessionDep, country: str = None, gender: str = None, age: int = 0):
+    """
+    1. get all cuties from the database
+    2. filter the cuties based on the query parameters
+        2.1. if country is not None, filter the cuties based on the country
+        2.2. if gender is not None, filter the cuties based
+        2.3. if age is not None, filter the cuties based
+    3. return the filtered cuties
+
+    1. データベースからすべてのキューティーを取得します
+    2. クエリパラメータに基づいてキューティーをフィルタリングします
+        2.1. countryがNoneでない場合、国に基づいてキューティーをフィルタリングします
+        2.2. genderがNoneでない場合、フィルタリングされたキューティーを返します
+        2.3. ageがNoneでない場合、フィルタリングされたキューティーを返します
+    3. フィルタリングされたキューティーを返します
+    """
+
+    cutiees_items = session.exec(select(Cutiees).country(country).gender(gender).age(age)).all()
+    return cutiees_items
 
 @app.get("/cutiees/{cutiee_id}/report")
 async def report_cutiee():
