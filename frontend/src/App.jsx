@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Select from 'react-select';
 import countries from 'world-countries';
 import './App.css'
+import './InputPage.css'; // CSSファイルを読み込む
 
 function App() {
   const [formData, setFormData] = useState({
@@ -67,6 +68,50 @@ function App() {
       label: `${start}-${end}`
     };
   });
+
+  const [formData, setFormData] = useState({
+    name: '',
+    date: '',
+    gender: '',
+    age: '',
+    imageFile: null,
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      imageFile: e.target.files[0],
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('date', formData.date);
+    data.append('gender', formData.gender);
+    data.append('age', formData.age);
+    if (formData.imageFile) {
+      data.append('imageFile', formData.imageFile);
+    }
+
+    try {
+      await fetch('http://localhost:5000/api/submit', {
+        method: 'POST',
+        body: data,
+      });
+      alert('Data submitted successfully!');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <>
