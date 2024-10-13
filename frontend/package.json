@@ -12,8 +12,14 @@
   "dependencies": {
     "@observablehq/runtime": "^5.9.9",
     "node": "^20.18.0",
+    "axios": "^1.7.7",
+    "d3": "^7.9.0",
+    "framer-motion": "^11.11.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0",
+    "react-select": "^5.8.1",
+    "world-countries": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

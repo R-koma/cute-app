@@ -1,42 +1,19 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+html, body {
+  height: 100%;
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff;
-}
-
-.navbar {
+#root {
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
-
-.logo h1 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.nav-links a {
-  margin-left: 20px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #000;
-}
-
-.hero {
+  flex-direction: column;
+  margin: auto;
   text-align: center;
-  margin: 50px 0;
-}
-
-.hero h2 {
-  font-size: 36px;
-  font-weight: bold;
-  color: #000;
+  justify-content: center;
+  background-image: url('/background.jpg') !important;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero p {
@@ -71,6 +48,7 @@ body {
 }
 
 .card {
+
   width: 200px;
   padding: 20px;
   border-radius: 10px;
@@ -94,6 +72,9 @@ body {
 
 .blue {
   background-color: #c5e1f9;
+  padding: 1em;
+  border: 5px solid grey;
+  border-radius: 25px;
 }
 
 .pink {
