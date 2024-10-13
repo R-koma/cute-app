@@ -1,10 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Select from 'react-select';
 import countries from 'world-countries';
 import './App.css'
 import './InputPage.css';
+import { motion } from "framer-motion";
 
 function App() {
+  const textLine = "あなたにとっての「かわいい」は？ To you, what does 'cute' mean?";
+  
+  const letters = Array.from(textLine); // Split the text into individual letters
+
+  const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.05, delayChildren: 0.04 * i },
+    }),
+  };
+
+  const child = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", damping: 12, stiffness: 100 },
+    },
+    hidden: {
+      opacity: 0,
+      y: 20,
+      transition: { type: "spring", damping: 12, stiffness: 100 },
+    },
+  };
+
   const [formData, setFormData] = useState({
     answer: '',
     country: '',
@@ -91,7 +117,7 @@ function App() {
     }
 
     try {
-      await fetch('http://localhost:5000/api/submit', {
+      await fetch('http://ec2-98-83-117-130.compute-1.amazonaws.com/api/submit', {
         method: 'POST',
         body: data,
       });
@@ -102,13 +128,22 @@ function App() {
   };
 
   return (
-    <div style={{ border: '5px solid grey', padding: '20px 40px', borderRadius: '25px'}}>
-      <div>
-        <h2>あなたにとっての「かわいい」は？</h2>
-        <h3>{`To you, what does 'cute' mean?`}</h3>
-      </div>
+    <div style={{ margin:'auto', padding: '20px 40px', borderRadius: '25px', justifyContent: 'center', textAlign: 'center'}}>
+      <motion.div
+      variants={container}
+      initial="hidden"
+      animate="visible"
+      className="animated-text"
+      style={{ fontSize: "24px", fontWeight: "bold", display: "flex", flexWrap: "wrap", margin: '10px' }}
+    >
+      {letters.map((char, index) => (
+        <motion.span key={index} variants={child}>
+          {char === " " ? "\u00A0" : char} {/* Handle spaces */}
+        </motion.span>
+      ))}
+    </motion.div>
       <div className="card">
-        <form onSubmit={handleSubmit} style={{ display: 'inline-block', textAlign: 'left', padding: '10px', backgroundColor: 'white', borderRadius: '5px' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'inline-block', textAlign: 'left', padding: '10px', borderRadius: '5px' }}>
 
           {/* Name input */}
           <div style={{ marginBottom: '10px' }}>
@@ -198,7 +233,7 @@ function App() {
             <input
               type="text"
               name="answer"
-              placeholder="text"
+              placeholder="「かわいい」は？/ What is cute to you ?"
               value={formData.answer}
               onChange={handleChange}
               style={{ width: '300px', padding: '8px' }}
