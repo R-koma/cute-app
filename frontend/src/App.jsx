@@ -63,11 +63,7 @@ function App() {
     { value: 'Other', label: 'Other' }
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
-
+  
   const countryOptions = countries.map((country) => ({
     value: country.name.common,
     label: country.name.common
@@ -81,28 +77,6 @@ function App() {
       label: `${start}-${end}`
     };
   });
-
-  const [formData, setFormData] = useState({
-    name: '',
-    date: '',
-    gender: '',
-    age: '',
-    imageFile: null,
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      imageFile: e.target.files[0],
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
