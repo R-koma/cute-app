@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Select from 'react-select';
 import countries from 'world-countries';
 import './App.css'
-import './InputPage.css'; // CSSファイルを読み込む
+import './InputPage.css';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -63,11 +63,7 @@ function App() {
     { value: 'Other', label: 'Other' }
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
-
+  
   const countryOptions = countries.map((country) => ({
     value: country.name.common,
     label: country.name.common
@@ -82,28 +78,6 @@ function App() {
     };
   });
 
-  const [formData, setFormData] = useState({
-    name: '',
-    date: '',
-    gender: '',
-    age: '',
-    imageFile: null,
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      imageFile: e.target.files[0],
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -111,6 +85,7 @@ function App() {
     data.append('date', formData.date);
     data.append('gender', formData.gender);
     data.append('age', formData.age);
+    data.append('text', formData.answer);
     if (formData.imageFile) {
       data.append('imageFile', formData.imageFile);
     }
@@ -140,7 +115,7 @@ function App() {
             <input
               type="text"
               name="name"
-              placeholder="name"
+              placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
               style={{ width: '300px', padding: '8px' }}
@@ -223,7 +198,7 @@ function App() {
             <input
               type="text"
               name="answer"
-              placeholder="(text, picture, drawing)"
+              placeholder="text"
               value={formData.answer}
               onChange={handleChange}
               style={{ width: '300px', padding: '8px' }}
