@@ -49,9 +49,7 @@ const Result = () => {
             </button>
             </div>
             <div>{data}</div>
-
         </>
     )
 }
-
 export default Result;

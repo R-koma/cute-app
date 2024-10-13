@@ -11,7 +11,8 @@ app = FastAPI()
 # Allow CORS
 origins = [
     "http://localhost",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://localhost:5173"
     # "https://----"
 ]
 
@@ -65,7 +66,7 @@ class CutieeRequest(BaseModel):
     image: str = None
     country: str = None
     gender: str = None
-    age: int = None
+    age: str = None
 
 @app.post("/api/cutiees")
 async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
