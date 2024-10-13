@@ -85,6 +85,7 @@ function App() {
     data.append('date', formData.date);
     data.append('gender', formData.gender);
     data.append('age', formData.age);
+    data.append('text', formData.answer);
     if (formData.imageFile) {
       data.append('imageFile', formData.imageFile);
     }
@@ -114,7 +115,7 @@ function App() {
             <input
               type="text"
               name="name"
-              placeholder="name"
+              placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
               style={{ width: '300px', padding: '8px' }}
@@ -197,7 +198,7 @@ function App() {
             <input
               type="text"
               name="answer"
-              placeholder="(text, picture, drawing)"
+              placeholder="text"
               value={formData.answer}
               onChange={handleChange}
               style={{ width: '300px', padding: '8px' }}
