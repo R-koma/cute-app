@@ -3,6 +3,7 @@ from .models import create_db_and_tables
 
 app = FastAPI()
 
+
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
@@ -43,8 +44,24 @@ async def create_cutiee():
     pass
 
 @app.get("/cutiees")
-async def get_cutiees():
-    pass
+async def get_cutiees(country: str = None, gender: str = None, age: int = 0):
+    """
+    1. get all cuties from the database
+    2. filter the cuties based on the query parameters
+        2.1. if country is not None, filter the cuties based on the country
+        2.2. if gender is not None, filter the cuties based
+        2.3. if age is not None, filter the cuties based
+    3. return the filtered cuties
+
+    1. データベースからすべてのキューティーを取得します
+    2. クエリパラメータに基づいてキューティーをフィルタリングします
+        2.1. countryがNoneでない場合、国に基づいてキューティーをフィルタリングします
+        2.2. genderがNoneでない場合、フィルタリングされたキューティーを返します
+        2.3. ageがNoneでない場合、フィルタリングされたキューティーを返します
+    3. フィルタリングされたキューティーを返します
+    """
+    cutiees = session.exec(select())
+        
 
 @app.get("/cutiees/{cutiee_id}/report")
 async def report_cutiee():
