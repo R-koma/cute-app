@@ -102,7 +102,7 @@ function App() {
   };
 
   return (
-    <>
+    <div style={{ border: '5px solid grey', padding: '20px 40px', borderRadius: '25px'}}>
       <div>
         <h2>あなたにとっての「かわいい」は？</h2>
         <h3>{`To you, what does 'cute' mean?`}</h3>
@@ -133,7 +133,7 @@ function App() {
               styles={{
                 control: (provided) => ({
                   ...provided,
-                  width: 300
+                  width: 317
                 })
               }}
             />
@@ -150,7 +150,7 @@ function App() {
             styles={{
               control: (provided) => ({
                 ...provided,
-                width: 300
+                width: 317
               })
             }}
           />
@@ -167,7 +167,7 @@ function App() {
               styles={{
                 control: (provided) => ({
                   ...provided,
-                  width: 300
+                  width: 317
                 })
               }}
             />
@@ -212,7 +212,7 @@ function App() {
           </button>
         </form>
       </div>
-    </>
+    </div>
   )
 }
 
