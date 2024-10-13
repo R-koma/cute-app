@@ -65,7 +65,7 @@ class CutieeRequest(BaseModel):
     image: str = None
     country: str = None
     gender: str = None
-    age: int = None
+    age: str = None
 
 @app.post("/api/cutiees")
 async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
