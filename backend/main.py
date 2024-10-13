@@ -4,8 +4,24 @@ from fastapi.responses import JSONResponse
 from .models import create_db_and_tables, get_session, Cutiees
 from typing import Annotated
 from sqlmodel import Session, select
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+# Allow CORS
+origins = [
+    "http://localhost",
+    "http://localhost:3000"
+    # "https://----"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods
+    allow_headers=["*"], # Allows all headers
+)
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
