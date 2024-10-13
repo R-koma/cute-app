@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 ENV DEPLOYMENT_ENV "dev"
 ENV EXPOSE_PORT 8000
