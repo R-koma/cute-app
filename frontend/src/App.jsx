@@ -34,6 +34,13 @@ function App() {
     });
   };
 
+  const handleGenderChange = (selectedOption) => {
+    setFormData({
+      ...formData,
+      gender: selectedOption.value
+    });
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     const maxSize = 5 * 1024 * 1024;
@@ -48,6 +55,12 @@ function App() {
       image: file
     });
   };
+
+  const genderOptions = [
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' },
+    { value: 'Other', label: 'Other' }
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,6 +118,23 @@ function App() {
               }}
             />
           </div>
+
+        {/* Gender dropdown */}
+        <div style={{ marginBottom: '10px' }}>
+          <Select
+            name="gender"
+            placeholder="Select your gender"
+            options={genderOptions}
+            onChange={handleGenderChange}
+            value={genderOptions.find(option => option.value === formData.gender)}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                width: 300
+              })
+            }}
+          />
+        </div>
 
           {/* Country dropdown */}
           <div style={{ marginBottom: '10px' }}>
