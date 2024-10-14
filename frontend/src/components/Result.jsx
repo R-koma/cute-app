@@ -232,6 +232,8 @@ const Result = () => {
         alignItems: "center",
         flexDirection: "row",
         padding: "20px",
+        marginTop: "60px",
+        marginX: "30px",
         gap: "20px",
       }}
       >
