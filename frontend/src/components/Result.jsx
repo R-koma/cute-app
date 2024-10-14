@@ -33,11 +33,15 @@ const Result = () => {
   const handleGenderChange = (selectedOption) => {
     setGender(selectedOption.value);
     fetchData(country, selectedOption.value, age);
+
+    drawBubbleChart();
   };
 
   const handleAgeChange = (selectedOption) => {
     setAge(selectedOption.value);
     fetchData(country, gender, selectedOption.value);
+
+    drawBubbleChart();
   };
 
   const countryOptions = countries.map((country) => ({
@@ -48,6 +52,8 @@ const Result = () => {
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
     fetchData(selectedOption.value, gender, age);
+
+    drawBubbleChart();
   };
 
   const formData = {
