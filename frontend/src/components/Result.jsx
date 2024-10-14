@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import * as d3 from "d3";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import countries from "world-countries";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Result = () => {
   const [data, setData] = useState([]);
@@ -169,30 +170,50 @@ const Result = () => {
   };
 
   return (
+
     <>
-      <div style={{ position: "relative", padding: "20px" }}>
-        <button
-          onClick={handleBackClick}
-          style={{
-            position: "absolute",
-            top: "20px",
-            left: "20px",
-            padding: "10px 20px",
-            backgroundColor: "#007BFF",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
-          Back
-        </button>
-      </div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "100vh",
+        width: "100vw",
+        position: "relative",
+      }}
+    >
+      <button
+        onClick={handleBackClick}
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          width: "100px",
+          display: "flex",
+          flexDirection: "row",
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          fontSize: "16px",
+        }}
+      >
+        <FaArrowLeft style={{ marginRight: "10px" }} />
+        {`Back`}
+      </button>
+      <h2
+        style={{
+          fontWeight: "700",
+          marginBottom: "-50px",
+          textAlign: "center",
+        }}
+      >
+        {`みんなのかわいい Everyone's Cuteness`}
+      </h2>
 
-      <h2>投稿されたデータのバブルチャート</h2>
-
-      {/* Filters */}
+{/* Filters */}
       <div
       
       style={{
@@ -268,8 +289,9 @@ const Result = () => {
           />
         </div>
       </div>
+
       <svg ref={svgRef} width={800} height={600} />
-    </>
+    </div>
   );
 };
 
