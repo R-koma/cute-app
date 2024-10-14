@@ -181,7 +181,6 @@ const Result = () => {
   };
 
   return (
-
     <>
     <div
       style={{
@@ -303,6 +302,7 @@ const Result = () => {
 
       <svg ref={svgRef} width={800} height={600} />
     </div>
+    </>
   );
 };
 
