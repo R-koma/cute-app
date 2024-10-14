@@ -33,11 +33,15 @@ const Result = () => {
   const handleGenderChange = (selectedOption) => {
     setGender(selectedOption.value);
     fetchData(country, selectedOption.value, age);
+
+    drawBubbleChart();
   };
 
   const handleAgeChange = (selectedOption) => {
     setAge(selectedOption.value);
     fetchData(country, gender, selectedOption.value);
+
+    drawBubbleChart();
   };
 
   const countryOptions = countries.map((country) => ({
@@ -48,6 +52,8 @@ const Result = () => {
   const handleCountryChange = (selectedOption) => {
     setCountry(selectedOption.value);
     fetchData(selectedOption.value, gender, age);
+
+    drawBubbleChart();
   };
 
   const formData = {
@@ -58,7 +64,8 @@ const Result = () => {
 
   // APIからデータを取得する関数
   const fetchData = (country, gender, age) => {
-    let baseURL = "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees";
+    let baseURL =
+      "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees";
 
     // Array to hold query parameters
     let queryParams = [];
@@ -182,128 +189,127 @@ const Result = () => {
 
   return (
     <>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "100vh",
-        width: "100vw",
-        position: "relative",
-      }}
-    >
-      <button
-        onClick={handleBackClick}
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "20px",
-          width: "100px",
-          display: "flex",
-          flexDirection: "row",
-          padding: "10px 20px",
-          backgroundColor: "#007BFF",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
-        <FaArrowLeft style={{ marginRight: "10px" }} />
-        {`Back`}
-      </button>
-      <h2
-        style={{
-          fontWeight: "700",
-          marginBottom: "-50px",
-          textAlign: "center",
-        }}
-      >
-        {`みんなのかわいい Everyone's Cuteness`}
-      </h2>
-
-{/* Filters */}
       <div
-      
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "row",
-        padding: "20px",
-        marginTop: "60px",
-        marginX: "30px",
-        gap: "20px",
-      }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          position: "relative",
+        }}
       >
-        {/* Age dropdown */}
-        <div style={{ marginBottom: "10px" }}>
-          <Select
-            name="age"
-            placeholder="Select your age range"
-            options={ageOptions}
-            onChange={handleAgeChange}
-            value={ageOptions.find((option) => option.value === formData.age)}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                width: 317,
-                border: "2px solid #9c9c9c",
-                borderRadius: "5px",
-                outline: "none",
-              }),
-            }}
-          />
+        <button
+          onClick={handleBackClick}
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            width: "100px",
+            display: "flex",
+            flexDirection: "row",
+            padding: "10px 20px",
+            backgroundColor: "#007BFF",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
+          }}
+        >
+          <FaArrowLeft style={{ marginRight: "10px" }} />
+          {`Back`}
+        </button>
+        <h2
+          style={{
+            fontWeight: "700",
+            marginBottom: "-50px",
+            textAlign: "center",
+          }}
+        >
+          {`みんなのかわいい Everyone's Cuteness`}
+        </h2>
+
+        {/* Filters */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            padding: "20px",
+            marginTop: "60px",
+            marginX: "30px",
+            gap: "20px",
+          }}
+        >
+          {/* Age dropdown */}
+          <div style={{ marginBottom: "10px" }}>
+            <Select
+              name="age"
+              placeholder="Select your age range"
+              options={ageOptions}
+              onChange={handleAgeChange}
+              value={ageOptions.find((option) => option.value === formData.age)}
+              styles={{
+                control: (provided) => ({
+                  ...provided,
+                  width: 317,
+                  border: "2px solid #9c9c9c",
+                  borderRadius: "5px",
+                  outline: "none",
+                }),
+              }}
+            />
+          </div>
+
+          {/* Gender dropdown */}
+          <div style={{ marginBottom: "10px" }}>
+            <Select
+              name="gender"
+              placeholder="Select your gender"
+              options={genderOptions}
+              onChange={handleGenderChange}
+              value={genderOptions.find(
+                (option) => option.value === formData.gender
+              )}
+              styles={{
+                control: (provided) => ({
+                  ...provided,
+                  width: 317,
+                  border: "2px solid #9c9c9c",
+                  borderRadius: "5px",
+                  outline: "none",
+                }),
+              }}
+            />
+          </div>
+
+          {/* Country dropdown */}
+          <div style={{ marginBottom: "10px" }}>
+            <Select
+              name="country"
+              placeholder="Select your country"
+              options={countryOptions}
+              onChange={handleCountryChange}
+              value={countryOptions.find(
+                (option) => option.value === formData.country
+              )}
+              styles={{
+                control: (provided) => ({
+                  ...provided,
+                  width: 317,
+                  border: "2px solid #9c9c9c",
+                  borderRadius: "5px",
+                  outline: "none",
+                }),
+              }}
+            />
+          </div>
         </div>
 
-        {/* Gender dropdown */}
-        <div style={{ marginBottom: "10px" }}>
-          <Select
-            name="gender"
-            placeholder="Select your gender"
-            options={genderOptions}
-            onChange={handleGenderChange}
-            value={genderOptions.find(
-              (option) => option.value === formData.gender
-            )}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                width: 317,
-                border: "2px solid #9c9c9c",
-                borderRadius: "5px",
-                outline: "none",
-              }),
-            }}
-          />
-        </div>
-
-        {/* Country dropdown */}
-        <div style={{ marginBottom: "10px" }}>
-          <Select
-            name="country"
-            placeholder="Select your country"
-            options={countryOptions}
-            onChange={handleCountryChange}
-            value={countryOptions.find(
-              (option) => option.value === formData.country
-            )}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                width: 317,
-                border: "2px solid #9c9c9c",
-                borderRadius: "5px",
-                outline: "none",
-              }),
-            }}
-          />
-        </div>
+        <svg ref={svgRef} width={800} height={600} />
       </div>
-
-      <svg ref={svgRef} width={800} height={600} />
-    </div>
     </>
   );
 };
