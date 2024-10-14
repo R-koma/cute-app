@@ -58,18 +58,29 @@ const Result = () => {
 
   // APIからデータを取得する関数
   const fetchData = (country, gender, age) => {
-    let baseURL =
-      "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees?";
+    let baseURL = "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees";
+
+    // Array to hold query parameters
+    let queryParams = [];
+
+    // Add country to query parameters if it's not empty
     if (country !== "") {
-      baseURL = `${baseURL}?country=${country}`;
+      queryParams.push(`country=${encodeURIComponent(country)}`);
     }
 
+    // Add gender to query parameters if it's not empty
     if (gender !== "") {
-      baseURL = `${baseURL}&gender=${gender}`;
+      queryParams.push(`gender=${encodeURIComponent(gender)}`);
     }
 
+    // Add age to query parameters if it's not empty
     if (age !== "") {
-      baseURL = `${baseURL}&age=${age}`;
+      queryParams.push(`age=${encodeURIComponent(age)}`);
+    }
+
+    // If there are any query parameters, append them to the base URL
+    if (queryParams.length > 0) {
+      baseURL += "?" + queryParams.join("&");
     }
 
     axios
