@@ -107,7 +107,7 @@ async def create_cutiee(cutiee_request: CutieeRequest, session: SessionDep):
 
 
 @app.get("/api/cutiees")
-async def get_cutiees(session: SessionDep, country: str = None, gender: str = None, age: int = 0):
+async def get_cutiees(session: SessionDep, country: str = None, gender: str = None, age: str = None):
     """
     1. get all cuties from the database
     2. filter the cuties based on the query parameters
@@ -132,7 +132,7 @@ async def get_cutiees(session: SessionDep, country: str = None, gender: str = No
     if gender is not None:
         cutiees_items = [cutiee for cutiee in cutiees_items if cutiee.gender == gender]
 
-    if age > 0:
+    if age is not None:
         cutiees_items = [cutiee for cutiee in cutiees_items if cutiee.age == age]
 
     return cutiees_items

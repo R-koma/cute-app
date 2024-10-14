@@ -2,22 +2,90 @@ import React, { useEffect, useState, useRef } from "react";
 import * as d3 from "d3";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import countries from "world-countries";
 
 const Result = () => {
   const [data, setData] = useState([]);
   const svgRef = useRef();
   const navigate = useNavigate();
 
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [country, setCountry] = useState("");
+
+  const genderOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Other", label: "Other" },
+  ];
+
+  const ageOptions = Array.from({ length: 20 }, (_, i) => {
+    const start = i * 10 + 1;
+    const end = start + 9;
+    return {
+      value: `${start}-${end}`,
+      label: `${start}-${end}`,
+    };
+  });
+
+  const handleGenderChange = (selectedOption) => {
+    setGender(selectedOption.value);
+    fetchData(country, selectedOption.value, age);
+  };
+
+  const handleAgeChange = (selectedOption) => {
+    setAge(selectedOption.value);
+    fetchData(country, gender, selectedOption.value);
+  };
+
+  const countryOptions = countries.map((country) => ({
+    value: country.name.common,
+    label: country.name.common,
+  }));
+
+  const handleCountryChange = (selectedOption) => {
+    setCountry(selectedOption.value);
+    fetchData(selectedOption.value, gender, age);
+  };
+
+  const formData = {
+    country: country,
+    gender: gender,
+    age: age,
+  };
+
   // APIからデータを取得する関数
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees"
-      );
-      setData(response.data);
-    } catch (error) {
-      console.error("データの取得中にエラーが発生しました:", error);
+  const fetchData = (country, gender, age) => {
+    let baseURL =
+      "http://ec2-98-83-117-130.compute-1.amazonaws.com/api/cutiees?";
+    if (country !== "") {
+      baseURL = `${baseURL}?country=${country}`;
     }
+
+    if (gender !== "") {
+      baseURL = `${baseURL}&gender=${gender}`;
+    }
+
+    if (age !== "") {
+      baseURL = `${baseURL}&age=${age}`;
+    }
+
+    axios
+      .get(baseURL)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("データの取得中にエラーが発生しました:", error);
+      });
+
+    // try {
+    //   const response =  axios.get(baseURL)
+    //   setData(response.data);
+    // } catch (error) {
+    //   console.error("データの取得中にエラーが発生しました:", error);
+    // }
   };
 
   // バブルチャートを描画する関数
@@ -87,7 +155,7 @@ const Result = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData("", "", "");
   }, []);
 
   useEffect(() => {
@@ -123,6 +191,83 @@ const Result = () => {
       </div>
 
       <h2>投稿されたデータのバブルチャート</h2>
+
+      {/* Filters */}
+      <div
+      
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        padding: "20px",
+        gap: "20px",
+      }}
+      >
+        {/* Age dropdown */}
+        <div style={{ marginBottom: "10px" }}>
+          <Select
+            name="age"
+            placeholder="Select your age range"
+            options={ageOptions}
+            onChange={handleAgeChange}
+            value={ageOptions.find((option) => option.value === formData.age)}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                width: 317,
+                border: "2px solid #9c9c9c",
+                borderRadius: "5px",
+                outline: "none",
+              }),
+            }}
+          />
+        </div>
+
+        {/* Gender dropdown */}
+        <div style={{ marginBottom: "10px" }}>
+          <Select
+            name="gender"
+            placeholder="Select your gender"
+            options={genderOptions}
+            onChange={handleGenderChange}
+            value={genderOptions.find(
+              (option) => option.value === formData.gender
+            )}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                width: 317,
+                border: "2px solid #9c9c9c",
+                borderRadius: "5px",
+                outline: "none",
+              }),
+            }}
+          />
+        </div>
+
+        {/* Country dropdown */}
+        <div style={{ marginBottom: "10px" }}>
+          <Select
+            name="country"
+            placeholder="Select your country"
+            options={countryOptions}
+            onChange={handleCountryChange}
+            value={countryOptions.find(
+              (option) => option.value === formData.country
+            )}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                width: 317,
+                border: "2px solid #9c9c9c",
+                borderRadius: "5px",
+                outline: "none",
+              }),
+            }}
+          />
+        </div>
+      </div>
       <svg ref={svgRef} width={800} height={600} />
     </>
   );
