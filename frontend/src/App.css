@@ -1,5 +1,9 @@
 html, body {
-  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #87CEEB; /* 空の色に変更 */
+  font-family: 'Arial', sans-serif;
+  overflow: hidden; /* スクロールを無効に */
 }
 
 #root {
@@ -28,6 +32,77 @@ html, body {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.container {
+  position: relative;
+}
+.balloons-container {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cloud {
+  width: 100px;
+  height: 60px;
+  background-color: #CCCCCC; /* 濃い雲の色 */
+  border-radius: 30px;
+  position: absolute;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.cloud:before,
+.cloud:after {
+  content: '';
+  position: absolute;
+  background-color: #CCCCCC; /* 濃い雲の色 */
+  border-radius: 30px;
+}
+.cloud:before {
+  width: 80px;
+  height: 50px;
+  left: -40px;
+  top: 5px;
+}
+.cloud:after {
+  width: 80px;
+  height: 50px;
+  right: -40px;
+  top: 5px;
+}
+/* いくつかの雲を配置 */
+.cloud:nth-of-type(1) { top: 100px; left: 150px; }
+.cloud:nth-of-type(2) { top: 80px; left: 300px; }
+.cloud:nth-of-type(3) { top: 120px; left: 500px; }
+.balloon {
+  width: 80px; /* 幅を調整 */
+  height: 120px; /* 高さを調整して自然な形に */
+  background-color: #FF6F61; /* バルーンの色 */
+  border-radius: 50% 50% 45% 45%; /* バルーンらしい形 */
+  position: absolute;
+  bottom: -100px; /* 初期位置を画面外に設定 */
+  box-shadow: inset -3px -8px 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(235, 232, 232, 0.5); /* 影を追加して立体感を出す */
+}
+.balloon-knot {
+  width: 10px; /* 結び目部分の幅 */
+  height: 10px; /* 結び目部分の高さ */
+  position: absolute;
+  bottom: -10px; /* バルーンの下に配置 */
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%; /* 結び目を丸くする */
+}
+.balloon-string {
+  width: 2px; /* ひも部分の幅 */
+  height: 70px; /* ひも部分の高さ */
+  background-color: #000; /* ひもの色 */
+  position: absolute;
+  bottom: -80px; /* バルーンの下に配置 */
+  left: 50%; /* 中央に配置 */
+  transform: translateX(-50%); /* 中心に寄せる */
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -47,6 +122,8 @@ html, body {
   padding: 1em;
   border: 5px solid grey;
   border-radius: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 .read-the-docs {
