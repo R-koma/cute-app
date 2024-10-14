@@ -3,6 +3,13 @@ import * as d3 from "d3";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const getRandomBrightColor = () => {
+  const r = Math.floor(Math.random() * 128 + 128);
+  const g = Math.floor(Math.random() * 128 + 128);
+  const b = Math.floor(Math.random() * 128 + 128);
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
 const Result = () => {
   const [data, setData] = useState([]);
   const svgRef = useRef();
@@ -102,7 +109,7 @@ const Result = () => {
 
   return (
     <>
-      <div style={{ position: "relative", padding: "20px" }}>
+      <div style={{ position: "relative", padding: "20px"}}>
         <button
           onClick={handleBackClick}
           style={{
